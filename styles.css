@@ -1,0 +1,121 @@
+
+* {
+  -webkit-box-sizing: border-box;
+     -moz-box-sizing: border-box;
+          box-sizing: border-box;
+}
+
+html {
+    overflow-y: scroll;
+	height: 100%;
+}
+
+html:after {
+	position: absolute;
+	content: "";
+	height: 0%;
+}
+
+body{
+    background:#aaa; 
+    margin: 0;
+	padding: 0;
+	min-height: 100%;
+	position: relative;
+}
+
+#head {
+	height: 40px;
+	background-color: #f66;
+    align-content: center;
+}
+
+canvas{
+    background:#ccc;
+}
+
+#container {
+    position: absolute;
+    background: green;
+    margin-left: 5%;
+    margin-right: 5%;
+    width:90%;
+    padding: 5px;
+    top: 60px;
+    bottom: 60px;
+}
+
+#sourceblock{
+    float:left;
+    width: 49.5%;
+    height: 100%;
+    margin: auto;
+    background: gray;
+}
+
+#sourcetext{
+    float: left;
+    width: 100%;
+    height: 100%;
+}
+
+#destblock{
+    float:right;
+    width: 49.5%;
+    height: 100%;
+    margin: auto;
+}
+
+#settings{
+    display: block;
+    width: 49.5%;
+    height: 30px;
+    margin-left: 0;
+}
+
+#statistics{
+    display: block;
+    width: 49.5%;
+    height: 30px;
+    margin-left: 0;
+}
+
+#desttext{
+    /*display: block;*/
+    /*height: auto;*/
+    /*resize: vertical;*/
+    width: 100%;
+    /*float: right;*/
+    height: 90%;
+}
+
+#control{
+    display: block;
+    background: yellow;
+    position: fixed;
+    width: 90%;
+    height: 40px;
+    bottom: 1%;
+    /*clear: left;*/
+    margin-left: 5%;
+    margin-right: 5%;
+    padding: 5px;
+}
+
+#beyondcontrol{
+    display: block;
+    background: red;
+    position: absolute;
+    height: 80px;
+}
+
+#button{
+    /*margin-left: 50%;
+    margin-right: 50%;*/
+    /*position: absolute;*/
+    /*align-self: center;*/
+    display: block;
+    margin: 0 auto;
+    top: 50%;
+    position: relative;
+}

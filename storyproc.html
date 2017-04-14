@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> 
+<html class="no-js"> <!--<![endif]-->
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <title>Stories processor</title>
+        <meta name="description" content="">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" type="text/css" href="styles.css">
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="browsehappy">You are using an <strong>outdated</strong> browser. Please <a href="#">upgrade your browser</a> to improve your experience.</p>
+        <![endif]-->
+        <div id="head">Header text</div>
+        <div id="container">
+            <div id="sourceblock">
+                <textarea id="sourcetext" ></textarea>
+            </div> 
+            <div id="destblock">
+                <div id="settings">
+                    <label>Indents: </label>
+                    <input id="indents" type="text" value="5"></input>
+                </div>
+                <div id="statistics">
+                    <label id="symbols">Symbols: </label>
+                </div>
+                <textarea id="desttext"  ></textarea>
+            </div>
+        </div>
+        <div id="control">
+            <button id="button" onclick="processText()" type="button">Process</button>
+            <!--<button id="button" onclick="adjustTextFields()" type="button">Adjust</button>-->
+        </div>
+    </body>
+    <script>
+        function resizeTextfield(element){
+            element.height = element.scrollHeight;
+        }
+
+        function adjustTextFields(){
+            resizeTextfield(document.getElementById("sourcetext"));
+            resizeTextfield(document.getElementById("desttext"));
+        }
+
+        function processText()
+        {
+            var indentSpaces = 5;
+            var customIndentsVal = document.getElementById("indents").value;
+            let newIndents = parseInt(customIndentsVal);
+            if (newIndents > 0) {
+                indentSpaces = newIndents;
+            }
+            else if (customIndentsVal.length > 0)
+            {
+                indentSpaces = customIndentsVal.length;
+            }
+            var srcText = document.getElementById("sourcetext").value;
+            var indentRegex = new RegExp("^" + " ".repeat(indentSpaces), "gm");
+            srcText = srcText.replace(indentRegex, "@");
+            srcText = srcText.replace(/ {2,}/g, " ");
+            srcText = srcText.replace(/\n/g, " ");
+            srcText = srcText.replace(/@/g, "\n");
+            srcText = srcText.replace(/- /g, "— ");
+            document.getElementById("desttext").value = srcText;
+            document.getElementById("symbols").innerText = "Symbols: " + srcText.length/1024 + "Kb";
+        }
+    </script>
+</html>
