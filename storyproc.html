@@ -60,14 +60,24 @@
                 indentSpaces = customIndentsVal.length;
             }
             var srcText = document.getElementById("sourcetext").value;
-            var indentRegex = new RegExp("^" + " ".repeat(indentSpaces), "gm");
-            srcText = srcText.replace(indentRegex, "@");
-            srcText = srcText.replace(/ {2,}/g, " ");
-            srcText = srcText.replace(/\n/g, " ");
-            srcText = srcText.replace(/@/g, "\n");
-            srcText = srcText.replace(/- /g, "— ");
+
+            let regexps = [["^" + " ".repeat(indentSpaces), "gm", "@", "Indents"],
+                [" {2,}", "g", " "],
+                ["\n", "g", " "],
+                ["@", "g", "\n"],
+                ["- ", "g", "— "]
+            ]
+
+            regexps.forEach(function(oneRegexp) {
+                var [expression, flags, repl] = oneRegexp;
+                let newRegexp = new RegExp(expression, flags);
+                srcText = srcText.replace(newRegexp, repl);
+            }, this);
+
             document.getElementById("desttext").value = srcText;
             document.getElementById("symbols").innerText = "Symbols: " + srcText.length/1024 + "Kb";
         }
+
+
     </script>
 </html>
