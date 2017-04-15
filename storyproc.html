@@ -19,16 +19,21 @@
         <div id="head">Header text</div>
         <div id="container">
             <div id="sourceblock">
+                <label style="height:20px">Source text</label>
                 <textarea id="sourcetext" ></textarea>
             </div> 
             <div id="destblock">
                 <div id="settings">
                     <label>Indents: </label>
-                    <input id="indents" type="text" value="5"></input>
+                    <input id="indents" type="text"></input>
                 </div>
                 <div id="statistics">
                     <label id="symbols">Symbols: </label>
                 </div>
+                <!--<ul id="operations">
+                    
+                </ul>-->
+                <label style="height:20px">Processed text</label>
                 <textarea id="desttext"  ></textarea>
             </div>
         </div>
@@ -38,18 +43,45 @@
         </div>
     </body>
     <script>
-        function resizeTextfield(element){
-            element.height = element.scrollHeight;
+        function Operation(regexp, flags, replacement, comment){
+            return {
+                regexp: regexp,
+                flags: flags,
+                repl: replacement,
+                comment: comment
+            };
         }
 
-        function adjustTextFields(){
-            resizeTextfield(document.getElementById("sourcetext"));
-            resizeTextfield(document.getElementById("desttext"));
-        }
+
+        let DEFAULT_INDENTS = 3;
+        document.getElementById("indents").value = DEFAULT_INDENTS;
+        let regexps = [new Operation("^" + " ".repeat(DEFAULT_INDENTS), "gm", "@", "Indents"),
+            new Operation(" {2,}", "g", " ", "Remove double spaces"),
+            new Operation("\n", "g", " ", "Remove line breaks"),
+            new Operation("@", "g", "\n", "Replace indents with line breaks"),
+            new Operation("- ", "g", "— ", "Replace hypen sign with Em dash")
+        ]
+
+        // displayOperations(regexps);
+
+        // function displayOperations(operations)
+        // {
+        //     let list = document.getElementById("operations");
+        //     if(list)
+        //     {
+        //         operations.forEach(function(oneOperation)
+        //         {
+        //             let newLi = document.createElement("li");
+        //             let newLiText = "/" + oneOperation.regexp + "/" + oneOperation.repl + "/" + oneOperation.flags + ": " + oneOperation.comment;
+        //             newLi.appendChild(document.createTextNode(newLiText));
+        //             list.appendChild(newLi);
+        //         }, this);
+        //     }
+        // }
 
         function processText()
         {
-            var indentSpaces = 5;
+            var indentSpaces = DEFAULT_INDENTS;
             var customIndentsVal = document.getElementById("indents").value;
             let newIndents = parseInt(customIndentsVal);
             if (newIndents > 0) {
@@ -61,23 +93,21 @@
             }
             var srcText = document.getElementById("sourcetext").value;
 
-            let regexps = [["^" + " ".repeat(indentSpaces), "gm", "@", "Indents"],
-                [" {2,}", "g", " "],
-                ["\n", "g", " "],
-                ["@", "g", "\n"],
-                ["- ", "g", "— "]
+            let regexps = [new Operation("^" + " ".repeat(indentSpaces), "gm", "@", "Indents"),
+                new Operation(" {2,}", "g", " ", "Remove double spaces"),
+                new Operation("\n", "g", " ", "Remove line breaks"),
+                new Operation("@", "g", "\n", "Replace indents with line breaks"),
+                new Operation("- ", "g", "— ", "Replace hypen sign with Em dash")
             ]
 
-            regexps.forEach(function(oneRegexp) {
-                var [expression, flags, repl] = oneRegexp;
-                let newRegexp = new RegExp(expression, flags);
-                srcText = srcText.replace(newRegexp, repl);
+            regexps.forEach(function(oneRegexp) 
+            {
+                let newRegexp = new RegExp(oneRegexp.regexp, oneRegexp.flags);
+                srcText = srcText.replace(newRegexp, oneRegexp.repl);
             }, this);
 
             document.getElementById("desttext").value = srcText;
-            document.getElementById("symbols").innerText = "Symbols: " + srcText.length/1024 + "Kb";
+            document.getElementById("symbols").innerText = "Length: " + Math.round(srcText.length/1024) + "Kb";
         }
-
-
     </script>
 </html>
