@@ -65,7 +65,7 @@ canvas{
     /*position: absolute;*/
     flex-grow: 1;
     font-size: 1em;
-    text-indent: 1em each-line;
+    /*text-indent: 1em each-line;*/
 }
 
 #destblock{
@@ -100,7 +100,7 @@ canvas{
     /*height: 80%;*/
     flex-grow: 1;
     font-size: 1em;
-    text-indent: 1em each-line;
+    /*text-indent: 1em each-line;*/
 }
 
 #control{

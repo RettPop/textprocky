@@ -2,7 +2,7 @@
 <!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
 <!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
 <!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
-<!--[if gt IE 8]><!--> 
+<!--[if gt IE 8]><!-->
 <html class="no-js"> <!--<![endif]-->
     <head>
         <meta charset="utf-8">
@@ -21,7 +21,7 @@
             <div id="sourceblock">
                 <label style="height:20px">Source text</label>
                 <textarea id="sourcetext" ></textarea>
-            </div> 
+            </div>
             <div id="destblock">
                 <div id="settings">
                     <label>Indents: </label>
@@ -31,7 +31,7 @@
                     <label id="symbols">Symbols: </label>
                 </div>
                 <!--<ul id="operations">
-                    
+
                 </ul>-->
                 <label style="height:20px">Processed text</label>
                 <textarea id="desttext"  ></textarea>
@@ -55,12 +55,13 @@
 
         let DEFAULT_INDENTS = 3;
         document.getElementById("indents").value = DEFAULT_INDENTS;
-        let regexps = [new Operation("^" + " ".repeat(DEFAULT_INDENTS), "gm", "@", "Indents"),
-            new Operation(" {2,}", "g", " ", "Remove double spaces"),
-            new Operation("\n", "g", " ", "Remove line breaks"),
-            new Operation("@", "g", "\n", "Replace indents with line breaks"),
-            new Operation("- ", "g", "— ", "Replace hypen sign with Em dash")
-        ]
+        // let regexps = [new Operation("^" + " ".repeat(DEFAULT_INDENTS), "gm", "@", "Indents"),
+        //     new Operation("\n", "g", " ", "Remove line breaks"),
+        //     new Operation("@", "g", "\n", "Replace indents with line breaks"),
+        //     new Operation("- ", "g", "— ", "Replace hypen sign with Em dash"),
+        //     new Operation("\s{2,}", "g", "@", "Remove double spaces"),
+        //     new Operation("\s+$", "gm", "", "Trim tailing spaces"),
+        // ]
 
         // displayOperations(regexps);
 
@@ -94,13 +95,14 @@
             var srcText = document.getElementById("sourcetext").value;
 
             let regexps = [new Operation("^" + " ".repeat(indentSpaces), "gm", "@", "Indents"),
-                new Operation(" {2,}", "g", " ", "Remove double spaces"),
-                new Operation("\n", "g", " ", "Remove line breaks"),
-                new Operation("@", "g", "\n", "Replace indents with line breaks"),
-                new Operation("- ", "g", "— ", "Replace hypen sign with Em dash")
+              new Operation("\\n", "g", " ", "Remove line breaks"),
+              new Operation("@", "g", "\n", "Replace indents with line breaks"),
+              new Operation("- ", "g", "— ", "Replace hypen sign with Em dash"),
+              new Operation("[ \\t]{2,}", "g", " ", "Remove double spaces"),
+              new Operation("\\s+$", "gm", "", "Trim tailing spaces"),
             ]
 
-            regexps.forEach(function(oneRegexp) 
+            regexps.forEach(function(oneRegexp)
             {
                 let newRegexp = new RegExp(oneRegexp.regexp, oneRegexp.flags);
                 srcText = srcText.replace(newRegexp, oneRegexp.repl);
