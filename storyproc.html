@@ -26,6 +26,8 @@
                 <div id="settings">
                     <label>Indents: </label>
                     <input id="indents" type="text"></input>
+                    <label>Extra EOL </label>
+                    <input id="extraEOL" type="checkbox" onclick="processExptraEOL()"></input>
                 </div>
                 <div id="statistics">
                     <label id="symbols">Symbols: </label>
@@ -97,6 +99,7 @@
             let regexps = [new Operation("^" + " ".repeat(indentSpaces), "gm", "@", "Indents"),
               new Operation("\\n", "g", " ", "Remove line breaks"),
               new Operation("@", "g", "\n", "Replace indents with line breaks"),
+              new Operation("--", "g", "—", "Replace hypen sign with Em dash"),
               new Operation("- ", "g", "— ", "Replace hypen sign with Em dash"),
               new Operation("[ \\t]{2,}", "g", " ", "Remove double spaces"),
               new Operation("\\s+$", "gm", "", "Trim tailing spaces"),
@@ -110,6 +113,20 @@
 
             document.getElementById("desttext").value = srcText;
             document.getElementById("symbols").innerText = "Length: " + Math.round(srcText.length/1024) + "Kb";
+        }
+
+        function processExptraEOL()
+        {
+            let checkbox = document.getElementById("extraEOL");
+            let destText = document.getElementById("desttext");
+            if(checkbox.checked)
+            {
+                destText.value = destText.value.replace(/\n/g, "\n\n");
+            }
+            else
+            {
+                destText.value = destText.value.replace(/\n{2}/g, "\n");
+            }
         }
     </script>
 </html>
