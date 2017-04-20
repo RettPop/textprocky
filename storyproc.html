@@ -55,8 +55,8 @@
         }
 
 
-        let DEFAULT_INDENTS = 3;
-        document.getElementById("indents").value = DEFAULT_INDENTS;
+        // let DEFAULT_INDENTS = 3;
+        // document.getElementById("indents").value = DEFAULT_INDENTS;
         // let regexps = [new Operation("^" + " ".repeat(DEFAULT_INDENTS), "gm", "@", "Indents"),
         //     new Operation("\n", "g", " ", "Remove line breaks"),
         //     new Operation("@", "g", "\n", "Replace indents with line breaks"),
@@ -84,19 +84,24 @@
 
         function processText()
         {
-            var indentSpaces = DEFAULT_INDENTS;
+            // var indentSpaces = DEFAULT_INDENTS;
             var customIndentsVal = document.getElementById("indents").value;
-            let newIndents = parseInt(customIndentsVal);
-            if (newIndents > 0) {
-                indentSpaces = newIndents;
+            let indentsRegexp = null;
+            if (parseInt(customIndentsVal) > 0) 
+            {
+                indentsRegexp = new Operation("^" + " ".repeat(parseInt(customIndentsVal)), "gm", "@", "Indents")
             }
             else if (customIndentsVal.length > 0)
             {
-                indentSpaces = customIndentsVal.length;
+                indentsRegexp = new Operation("^" + " ".repeat(customIndentsVal.length), "gm", "@", "Indents")
+            }
+            else 
+            {
+                indentsRegexp = new Operation("^ +", "gm", "@", "Indents")
             }
             var srcText = document.getElementById("sourcetext").value;
 
-            let regexps = [new Operation("^" + " ".repeat(indentSpaces), "gm", "@", "Indents"),
+            let regexps = [indentsRegexp,
               new Operation("\\n", "g", " ", "Remove line breaks"),
               new Operation("@", "g", "\n", "Replace indents with line breaks"),
               new Operation("--", "g", "—", "Replace hypen sign with Em dash"),
