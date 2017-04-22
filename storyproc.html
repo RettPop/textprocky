@@ -32,16 +32,12 @@
                 <div id="statistics">
                     <label id="symbols">Symbols: </label>
                 </div>
-                <!--<ul id="operations">
-
-                </ul>-->
                 <label style="height:20px">Processed text</label>
                 <textarea id="desttext"  ></textarea>
             </div>
         </div>
         <div id="control">
             <button id="button" onclick="processText()" type="button">Process</button>
-            <!--<button id="button" onclick="adjustTextFields()" type="button">Adjust</button>-->
         </div>
     </body>
     <script>
@@ -54,37 +50,8 @@
             };
         }
 
-
-        // let DEFAULT_INDENTS = 3;
-        // document.getElementById("indents").value = DEFAULT_INDENTS;
-        // let regexps = [new Operation("^" + " ".repeat(DEFAULT_INDENTS), "gm", "@", "Indents"),
-        //     new Operation("\n", "g", " ", "Remove line breaks"),
-        //     new Operation("@", "g", "\n", "Replace indents with line breaks"),
-        //     new Operation("- ", "g", "— ", "Replace hypen sign with Em dash"),
-        //     new Operation("\s{2,}", "g", "@", "Remove double spaces"),
-        //     new Operation("\s+$", "gm", "", "Trim tailing spaces"),
-        // ]
-
-        // displayOperations(regexps);
-
-        // function displayOperations(operations)
-        // {
-        //     let list = document.getElementById("operations");
-        //     if(list)
-        //     {
-        //         operations.forEach(function(oneOperation)
-        //         {
-        //             let newLi = document.createElement("li");
-        //             let newLiText = "/" + oneOperation.regexp + "/" + oneOperation.repl + "/" + oneOperation.flags + ": " + oneOperation.comment;
-        //             newLi.appendChild(document.createTextNode(newLiText));
-        //             list.appendChild(newLi);
-        //         }, this);
-        //     }
-        // }
-
         function processText()
         {
-            // var indentSpaces = DEFAULT_INDENTS;
             var customIndentsVal = document.getElementById("indents").value;
             let indentsRegexp = null;
             if (parseInt(customIndentsVal) > 0) 
